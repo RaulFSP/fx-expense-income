@@ -4,6 +4,7 @@ import com.portfolio.fxexpensetrack.utils.ValueType;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Objects;
 @Entity
@@ -26,8 +27,8 @@ public class Value {
     private LocalDate creationDate;
 
 
-    @Column(name = "amount",nullable = false)
-    private Double amount;
+    @Column(name = "amount",nullable = false, precision = 16, scale = 6)
+    private BigDecimal amount;
 
 
 
@@ -79,11 +80,11 @@ public class Value {
         this.creationDate = creationDate;
     }
 
-    public Double getAmount() {
+    public BigDecimal getAmount() {
         return amount;
     }
 
-    public void setAmount(Double amount) {
+    public void setAmount(BigDecimal amount) {
         this.amount = amount;
     }
 }

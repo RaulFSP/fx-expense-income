@@ -1,4 +1,5 @@
 package com.portfolio.fxexpensetrack;
+
 import com.portfolio.fxexpensetrack.dao.DAO;
 import com.portfolio.fxexpensetrack.repositories.ValueRepository;
 import com.portfolio.fxexpensetrack.utils.DataLists;
@@ -25,13 +26,12 @@ public class App extends Application {
 
     @Override
     public void init() throws Exception {
-            Platform.runLater(()->{
-        try(EntityManager manager = DAO.getEntityManager()){
+        Platform.runLater(() -> {
+            DataLists.getListValueTypes().setAll(ValueType.values());
+            try (EntityManager manager = DAO.getEntityManager()) {
                 DataLists.getListValues().setAll(new ValueRepository(manager).findAll());
-                DataLists.getListValueTypes().setAll(ValueType.values());
-
-        }
-            });
+            }
+        });
     }
 
     public static void main(String[] args) {

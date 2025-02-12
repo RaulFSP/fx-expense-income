@@ -1,0 +1,7 @@
+.table-cell-right {
+    -fx-alignment: CENTER-RIGHT;
+}
+
+.table-cell-center {
+    -fx-alignment: CENTER;
+}

@@ -11,6 +11,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
+import java.math.BigDecimal;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -61,14 +62,12 @@ public class AddNewController implements Initializable {
             alert.showAndWait();
         } else {
             Value value = new Value();
-            value.setAmount(Double.parseDouble(tfvalueAmount.getText().trim()));
+            value.setAmount(BigDecimal.valueOf(Double.parseDouble(tfvalueAmount.getText().trim())));
             value.setDescription(tfValueDescription.getText().trim());
             value.setType(cbValueType.getValue());
             ValueRepository repository = new ValueRepository(DAO.getEntityManager());
             repository.save(value);
-            Platform.runLater(()->{
-                DataLists.getListValues().setAll(repository.findAll());
-            });
+            Platform.runLater(()-> DataLists.getListValues().setAll(repository.findAll()));
             handleClearAction();
         }
     }
