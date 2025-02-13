@@ -37,6 +37,7 @@ public class AddNewController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        configAmountInput();
         cbValueType.setItems(DataLists.getListValueTypes());
         btnCancel.setOnAction(e->handleCancelAction());
         btnClear.setOnAction(e->handleClearAction());
@@ -65,10 +66,20 @@ public class AddNewController implements Initializable {
             value.setAmount(BigDecimal.valueOf(Double.parseDouble(tfvalueAmount.getText().trim())));
             value.setDescription(tfValueDescription.getText().trim());
             value.setType(cbValueType.getValue());
-            ValueRepository repository = new ValueRepository(DAO.getEntityManager());
-            repository.save(value);
-            Platform.runLater(()-> DataLists.getListValues().setAll(repository.findAll()));
-            handleClearAction();
+            Platform.runLater(()-> {
+                ValueRepository repository = new ValueRepository(DAO.getEntityManager());
+                repository.save(value);
+                DataLists.getListValues().setAll(repository.findAll());
+                handleClearAction();
+            });
         }
+    }
+
+    private void configAmountInput(){
+        tfvalueAmount.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.matches("^(\\d{0,12})(\\.(\\d{0,6})?)?$")){
+                tfvalueAmount.setText(oldValue);
+            }
+        });
     }
 }

@@ -27,7 +27,7 @@ public class Value {
     private LocalDate creationDate;
 
 
-    @Column(name = "amount",nullable = false, precision = 16, scale = 6)
+    @Column(name = "amount",nullable = false, precision = 18, scale = 6)
     private BigDecimal amount;
 
 

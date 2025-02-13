@@ -5,34 +5,31 @@ import com.portfolio.fxexpensetrack.entities.Value;
 import com.portfolio.fxexpensetrack.utils.DataLists;
 import com.portfolio.fxexpensetrack.utils.ValueType;
 import javafx.application.Platform;
-import javafx.beans.Observable;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
-import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
+import javafx.css.StyleClass;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.net.URL;
 import java.text.NumberFormat;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
-import java.util.Locale;
 import java.util.ResourceBundle;
-import java.util.stream.Collectors;
+
 
 public class HomeController implements Initializable {
 
+
+    private final NumberFormat format = NumberFormat.getCurrencyInstance();
     @FXML
     private Label lbExpenses;
 
@@ -64,7 +61,7 @@ public class HomeController implements Initializable {
     private TableColumn<Value, LocalDate> colDate;
 
     @FXML
-    private TableColumn<Value, BigDecimal> colAmount;
+    private TableColumn<Value, String> colAmount;
 
     @FXML
     private MenuItem itemExpensesTable;
@@ -75,27 +72,36 @@ public class HomeController implements Initializable {
     @FXML
     private MenuItem itemGeneralTable;
 
+    @FXML
+    private MenuItem itemDarkMode;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         configTableValues();
-        configValueTrackers();
+        configValueTrackerInit();
+        configValueTrackersUpdate();
         Platform.runLater(() -> {
             tableValues.setItems(DataLists.getListValues());
             cbTableValuesFilter.setItems(DataLists.getListTableValueFilters());
-
+            cbTableValuesFilter.getSelectionModel().selectFirst();
         });
         cbTableValuesFilter.setOnAction(e -> handleTableFilter());
         btnConfirm.setOnAction(action -> handleAddNew());
+        itemDarkMode.setOnAction(e->handleItemDarkMode());
+    }
+
+    private void handleItemDarkMode(){
+
+        btnConfirm.getScene().getStylesheets().add(App.class.getResource("/styles/dark-styles.css").toExternalForm());
 
     }
 
     private void configTableValues() {
-        colID.prefWidthProperty().bind(tableValues.prefWidthProperty().multiply(0.1));
+
+
         colID.setCellValueFactory(cell -> new SimpleLongProperty(cell.getValue().getId()).asObject());
 
-
-        colAmount.setCellValueFactory(cell -> new SimpleObjectProperty<>(cell.getValue().getAmount()));
+        colAmount.setCellValueFactory(cell -> new SimpleObjectProperty<>(format.format(cell.getValue().getAmount().setScale(6, RoundingMode.HALF_UP))));
 
         colDescription.setCellValueFactory(cell -> new SimpleStringProperty(cell.getValue().getDescription()));
 
@@ -106,19 +112,34 @@ public class HomeController implements Initializable {
 
     }
 
-    private void configValueTrackers(){
-        DataLists.getListValues().addListener((ListChangeListener<Value>)  change->{
-            BigDecimal balance = change.getList().stream().filter(value->value.getType().getValue().equals("expense")).map(Value::getAmount).reduce(BigDecimal.ZERO,BigDecimal::add);
-//            BigDecimal sum = change.getList().stream().map(Value::getAmount).filter(amount->amount != null).reduce(BigDecimal.ZERO,BigDecimal::add);
-            lbBalance.setText(balance.toString());
+    private void configValueTrackerInit() {
+        Platform.runLater(() -> {
+            var list = DataLists.getListValues();
+            BigDecimal expenses = list.stream().filter(value -> value.getType().getValue().equals("expense")).map(Value::getAmount).reduce(BigDecimal.ZERO, BigDecimal::add);
+            BigDecimal incomes = list.stream().filter(value -> value.getType().getValue().equals("income")).map(Value::getAmount).reduce(BigDecimal.ZERO, BigDecimal::add);
+            BigDecimal balance = incomes.subtract(expenses);
+            lbExpenses.setText(format.format(expenses));
+            lbIncomes.setText(format.format(incomes));
+            lbBalance.setText(format.format(balance));
+        });
+    }
+
+    private void configValueTrackersUpdate() {
+
+        DataLists.getListValues().addListener((ListChangeListener<Value>) change -> {
+            BigDecimal expenses = change.getList().stream().filter(value -> value.getType().getValue().equals("expense")).map(Value::getAmount).reduce(BigDecimal.ZERO, BigDecimal::add);
+            BigDecimal incomes = change.getList().stream().filter(value -> value.getType().getValue().equals("income")).map(Value::getAmount).reduce(BigDecimal.ZERO, BigDecimal::add);
+            BigDecimal balance = incomes.subtract(expenses);
+            lbExpenses.setText(format.format(expenses));
+            lbIncomes.setText(format.format(incomes));
+            lbBalance.setText(format.format(balance));
         });
     }
 
     private void handleAddNew() {
 
         try {
-
-            FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("views/add-new.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/views/add-new.fxml"));
             Scene scene = new Scene(fxmlLoader.load());
             Stage stage = new Stage();
             stage.setTitle("New Entry");
@@ -132,30 +153,22 @@ public class HomeController implements Initializable {
 
     private void handleTableFilter() {
 
-
         switch (cbTableValuesFilter.getValue()) {
-            case "all" -> {
-                Platform.runLater(() -> {
-                    tableValues.setItems(DataLists.getListValues());
-
-                });
-            }
-            case "expense" -> {
-                Platform.runLater(() -> {
-                    FilteredList<Value> filteredList = new FilteredList<>(DataLists.getListValues());
-                    filteredList.setPredicate(item -> item.getType() != null && "expense".equals(item.getType().getValue()));
-                    tableValues.setItems(filteredList);
-                });
-            }
-            case "income" -> {
-                Platform.runLater(() -> {
-                    FilteredList<Value> filteredList = new FilteredList<>(DataLists.getListValues());
-                    filteredList.setPredicate(item -> item.getType() != null && "income".equals(item.getType().getValue()));
-                    tableValues.setItems(filteredList);
-                });
-            }
-
+            case "all" -> Platform.runLater(() -> {
+                tableValues.setItems(DataLists.getListValues());
+            });
+            case "expense" -> Platform.runLater(() -> {
+                FilteredList<Value> filteredList = new FilteredList<>(DataLists.getListValues());
+                filteredList.setPredicate(item -> item.getType() != null && "expense".equals(item.getType().getValue()));
+                tableValues.setItems(FXCollections.observableArrayList(filteredList));
+            });
+            case "income" -> Platform.runLater(() -> {
+                FilteredList<Value> filteredList = new FilteredList<>(DataLists.getListValues());
+                filteredList.setPredicate(item -> item.getType() != null && "income".equals(item.getType().getValue()));
+                tableValues.setItems(FXCollections.observableArrayList(filteredList));
+            });
         }
-
     }
+
+
 }
