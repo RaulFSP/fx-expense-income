@@ -3,6 +3,7 @@ package com.portfolio.fxexpensetrack;
 import com.portfolio.fxexpensetrack.dao.DAO;
 import com.portfolio.fxexpensetrack.repositories.ValueRepository;
 import com.portfolio.fxexpensetrack.utils.DataLists;
+import com.portfolio.fxexpensetrack.utils.StageManager;
 import com.portfolio.fxexpensetrack.utils.ValueType;
 import jakarta.persistence.EntityManager;
 import javafx.application.Application;
@@ -17,11 +18,7 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/views/home.fxml"));
-        Scene scene = new Scene(fxmlLoader.load());
-        stage.setTitle("Expenses/Income Tracker!");
-        stage.setScene(scene);
-        stage.show();
+        StageManager.showHome();
     }
 
     @Override

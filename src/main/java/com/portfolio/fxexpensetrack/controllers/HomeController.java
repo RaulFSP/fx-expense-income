@@ -1,23 +1,19 @@
 package com.portfolio.fxexpensetrack.controllers;
 
-import com.portfolio.fxexpensetrack.App;
 import com.portfolio.fxexpensetrack.entities.Value;
 import com.portfolio.fxexpensetrack.utils.DataLists;
+import com.portfolio.fxexpensetrack.utils.StageManager;
 import com.portfolio.fxexpensetrack.utils.ValueType;
 import javafx.application.Platform;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.transformation.FilteredList;
-import javafx.css.StyleClass;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.net.URL;
@@ -30,6 +26,7 @@ public class HomeController implements Initializable {
 
 
     private final NumberFormat format = NumberFormat.getCurrencyInstance();
+
     @FXML
     private Label lbExpenses;
 
@@ -73,7 +70,7 @@ public class HomeController implements Initializable {
     private MenuItem itemGeneralTable;
 
     @FXML
-    private MenuItem itemDarkMode;
+    private MenuItem itemConfigurationMenu;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -87,13 +84,11 @@ public class HomeController implements Initializable {
         });
         cbTableValuesFilter.setOnAction(e -> handleTableFilter());
         btnConfirm.setOnAction(action -> handleAddNew());
-        itemDarkMode.setOnAction(e->handleItemDarkMode());
+        itemConfigurationMenu.setOnAction(e-> handleItemConfig());
     }
 
-    private void handleItemDarkMode(){
-
-        btnConfirm.getScene().getStylesheets().add(App.class.getResource("/styles/dark-styles.css").toExternalForm());
-
+    private void handleItemConfig(){
+            StageManager.showConfigMenu();
     }
 
     private void configTableValues() {
@@ -138,17 +133,7 @@ public class HomeController implements Initializable {
 
     private void handleAddNew() {
 
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/views/add-new.fxml"));
-            Scene scene = new Scene(fxmlLoader.load());
-            Stage stage = new Stage();
-            stage.setTitle("New Entry");
-            stage.setScene(scene);
-            stage.show();
-        } catch (IOException e) {
-            System.err.println(e.getCause());
-            System.err.println(e.getMessage());
-        }
+        StageManager.showAddEntry();
     }
 
     private void handleTableFilter() {
