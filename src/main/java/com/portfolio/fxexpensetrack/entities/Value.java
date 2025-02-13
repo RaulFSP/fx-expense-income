@@ -1,6 +1,6 @@
 package com.portfolio.fxexpensetrack.entities;
 
-import com.portfolio.fxexpensetrack.utils.ValueType;
+import com.portfolio.fxexpensetrack.entities.enums.ValueType;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 

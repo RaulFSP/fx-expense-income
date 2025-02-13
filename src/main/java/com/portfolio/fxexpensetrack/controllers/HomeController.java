@@ -3,7 +3,7 @@ package com.portfolio.fxexpensetrack.controllers;
 import com.portfolio.fxexpensetrack.entities.Value;
 import com.portfolio.fxexpensetrack.utils.DataLists;
 import com.portfolio.fxexpensetrack.utils.StageManager;
-import com.portfolio.fxexpensetrack.utils.ValueType;
+import com.portfolio.fxexpensetrack.entities.enums.ValueType;
 import javafx.application.Platform;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
@@ -12,7 +12,6 @@ import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.stage.Stage;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;

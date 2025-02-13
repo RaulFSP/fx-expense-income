@@ -1,6 +1,7 @@
 package com.portfolio.fxexpensetrack.utils;
 
 import com.portfolio.fxexpensetrack.entities.Value;
+import com.portfolio.fxexpensetrack.entities.enums.ValueType;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 

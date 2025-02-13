@@ -1,4 +1,4 @@
-package com.portfolio.fxexpensetrack.utils;
+package com.portfolio.fxexpensetrack.entities.enums;
 
 public enum ValueType {
 

@@ -4,7 +4,7 @@ import com.portfolio.fxexpensetrack.dao.DAO;
 import com.portfolio.fxexpensetrack.entities.Value;
 import com.portfolio.fxexpensetrack.repositories.ValueRepository;
 import com.portfolio.fxexpensetrack.utils.DataLists;
-import com.portfolio.fxexpensetrack.utils.ValueType;
+import com.portfolio.fxexpensetrack.entities.enums.ValueType;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;

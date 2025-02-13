@@ -20,16 +20,17 @@ public class ConfigMenuController implements Initializable {
     }
 
     private void handleDarkMode(){
-        if (toggleDarkMode.isSelected()){
-            toggleDarkMode.setText("ON");
-            StageManager.getStageHome().getScene().getStylesheets().add(App.class.getResource("/styles/dark-styles.css").toExternalForm());
-            StageManager.getStageAddEntry().getScene().getStylesheets().add(App.class.getResource("/styles/dark-styles.css").toExternalForm());
-            StageManager.getStageConfigMenu().getScene().getStylesheets().add(App.class.getResource("/styles/dark-styles.css").toExternalForm());
-        } else {
-            toggleDarkMode.setText("OFF");
-            StageManager.getStageHome().getScene().getStylesheets().remove(App.class.getResource("/styles/dark-styles.css").toExternalForm());
-            StageManager.getStageAddEntry().getScene().getStylesheets().remove(App.class.getResource("/styles/dark-styles.css").toExternalForm());
-            StageManager.getStageConfigMenu().getScene().getStylesheets().remove(App.class.getResource("/styles/dark-styles.css").toExternalForm());
-        }
+
+//        if (toggleDarkMode.isSelected()){
+//            toggleDarkMode.setText("ON");
+//            StageManager.getStageHome().getScene().getStylesheets().add(App.class.getResource("/styles/dark-styles.css").toExternalForm());
+//            StageManager.getStageAddEntry().getScene().getStylesheets().add(App.class.getResource("/styles/dark-styles.css").toExternalForm());
+//            StageManager.getStageConfigMenu().getScene().getStylesheets().add(App.class.getResource("/styles/dark-styles.css").toExternalForm());
+//        } else {
+//            toggleDarkMode.setText("OFF");
+//            StageManager.getStageHome().getScene().getStylesheets().remove(App.class.getResource("/styles/dark-styles.css").toExternalForm());
+//            StageManager.getStageAddEntry().getScene().getStylesheets().remove(App.class.getResource("/styles/dark-styles.css").toExternalForm());
+//            StageManager.getStageConfigMenu().getScene().getStylesheets().remove(App.class.getResource("/styles/dark-styles.css").toExternalForm());
+//        }
     }
 }
