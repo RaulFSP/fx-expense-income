@@ -26,7 +26,7 @@ tasks.withType(JavaCompile) {
 
 application {
     mainModule = 'com.portfolio.fxexpensetrack'
-    mainClass = 'com.portfolio.fxexpensetrack.HelloApplication'
+    mainClass = 'com.portfolio.fxexpensetrack.App'
 }
 
 javafx {
@@ -35,6 +35,7 @@ javafx {
 }
 
 dependencies {
+
     implementation("org.postgresql:postgresql:42.7.5")
     implementation("org.hibernate:hibernate-core:6.6.7.Final")
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")

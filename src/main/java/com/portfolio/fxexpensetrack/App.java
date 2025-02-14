@@ -2,7 +2,7 @@ package com.portfolio.fxexpensetrack;
 
 import com.portfolio.fxexpensetrack.dao.DAO;
 import com.portfolio.fxexpensetrack.repositories.ValueRepository;
-import com.portfolio.fxexpensetrack.utils.ConfigReader;
+import com.portfolio.fxexpensetrack.utils.ConfigManager;
 import com.portfolio.fxexpensetrack.utils.DataLists;
 import com.portfolio.fxexpensetrack.utils.StageManager;
 import com.portfolio.fxexpensetrack.entities.enums.ValueType;
@@ -15,21 +15,26 @@ import java.io.IOException;
 
 public class App extends Application {
 
+    private static ConfigManager configManager;
+
     @Override
     public void start(Stage stage) throws IOException {
         StageManager.showHome();
     }
 
+    public static ConfigManager getConfigManager() {
+        return configManager;
+    }
+
     @Override
     public void init() throws Exception {
+        configManager = new ConfigManager();
         Platform.runLater(() -> {
             DataLists.getListValueTypes().setAll(ValueType.values());
             try (EntityManager manager = DAO.getEntityManager()) {
                 DataLists.getListValues().setAll(new ValueRepository(manager).findAll());
             }
         });
-        ConfigReader reader = new ConfigReader();
-        System.out.println(reader.getProperty("app.dark-style"));
     }
 
     public static void main(String[] args) {

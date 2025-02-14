@@ -6,12 +6,12 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class ConfigReader {
-    private static final Logger logger = Logger.getLogger(ConfigReader.class.getName());
+public class ConfigManager {
+    private static final Logger logger = Logger.getLogger(ConfigManager.class.getName());
     private Properties properties = new Properties();
 
 
-    public ConfigReader() {
+    public ConfigManager() {
         readProperties();
     }
 
@@ -21,6 +21,10 @@ public class ConfigReader {
         } catch (IOException | NullPointerException e) {
             logger.log(Level.SEVERE, e.getMessage(), e);
         }
+    }
+
+    public void setProperty(String key, String value){
+
     }
 
     public String getProperty(String key) {
