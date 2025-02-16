@@ -11,8 +11,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class ValueRepository implements GenericCRUD<com.portfolio.fxexpensetrack.entities.Value>{
-    private EntityManager manager;
-    private static Logger logger = Logger.getLogger(ValueRepository.class.getName());
+    private final EntityManager manager;
+    private static final Logger logger = Logger.getLogger(ValueRepository.class.getName());
 
     public ValueRepository(EntityManager manager) {
         this.manager = manager;

@@ -7,9 +7,9 @@ import javafx.collections.ObservableList;
 
 public class DataLists {
 
-    private static ObservableList<Value> listValues = FXCollections.observableArrayList();
-    private static ObservableList<ValueType> listValueTypes = FXCollections.observableArrayList();
-    private static ObservableList<String> listTableValueFilters = FXCollections.observableArrayList("all", "expense", "income");
+    private static final ObservableList<Value> listValues = FXCollections.observableArrayList();
+    private static final ObservableList<ValueType> listValueTypes = FXCollections.observableArrayList();
+    private static final ObservableList<String> listTableValueFilters = FXCollections.observableArrayList("all", "expense", "income");
 
     public static ObservableList<String> getListTableValueFilters() {
         return listTableValueFilters;

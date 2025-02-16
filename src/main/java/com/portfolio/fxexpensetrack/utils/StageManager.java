@@ -11,9 +11,9 @@ import java.util.logging.Logger;
 
 public class StageManager {
     private static final Logger logger = Logger.getLogger(StageManager.class.getName());
-    private static Stage stageHome = new Stage();
-    private static Stage stageAddEntry = new Stage();
-    private static Stage stageConfigMenu = new Stage();
+    private static final Stage stageHome = new Stage();
+    private static final Stage stageAddEntry = new Stage();
+    private static final Stage stageConfigMenu = new Stage();
 
     public static Stage getStageHome() {
         return stageHome;

@@ -5,7 +5,7 @@ public enum ValueType {
     EXPENSE("expense"),
     INCOME("income");
 
-    private String value;
+    private final String value;
 
     ValueType(String value) {
         this.value = value;

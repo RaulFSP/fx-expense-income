@@ -8,7 +8,7 @@ import java.util.logging.Logger;
 
 public class ConfigManager {
     private static final Logger logger = Logger.getLogger(ConfigManager.class.getName());
-    private Properties properties = new Properties();
+    private final Properties properties = new Properties();
 
 
     public ConfigManager() {

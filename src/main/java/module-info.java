@@ -1,11 +1,10 @@
-module com.portfolio.fxexpensetrack {
+module fx.expense.track.main {
+    requires jakarta.persistence;
+    requires java.logging;
+    requires javafx.base;
     requires javafx.controls;
     requires javafx.fxml;
-    requires jakarta.persistence;
+    requires javafx.graphics;
     requires org.hibernate.orm.core;
-    requires  javafx.graphics;
-    exports  com.portfolio.fxexpensetrack to javafx.graphics;
-    exports com.portfolio.fxexpensetrack.controllers;
-    opens com.portfolio.fxexpensetrack.controllers to javafx.fxml;
-    opens   com.portfolio.fxexpensetrack to javafx.graphics;
+    opens com.portfolio.fxexpensetrack;
 }
