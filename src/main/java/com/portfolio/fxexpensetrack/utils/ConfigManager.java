@@ -1,7 +1,8 @@
 package com.portfolio.fxexpensetrack.utils;
 
-import java.io.IOException;
-import java.io.InputStream;
+import com.portfolio.fxexpensetrack.App;
+
+import java.io.*;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -15,19 +16,24 @@ public class ConfigManager {
         readProperties();
     }
 
-    public void readProperties(){
-        try (InputStream inputStream = getClass().getResourceAsStream( "/config.properties")) {
+    public void readProperties() {
+        try (InputStream inputStream = getClass().getResourceAsStream("/config.properties")) {
             properties.load(inputStream);
         } catch (IOException | NullPointerException e) {
             logger.log(Level.SEVERE, e.getMessage(), e);
         }
     }
 
-    public void setProperty(String key, String value){
+    public void saveProperties() {
 
+        try (FileOutputStream out = new FileOutputStream("src/main/resources/config.properties")) {
+            properties.store(out, null);
+        } catch (IOException e) {
+            logger.log(Level.SEVERE, e.getMessage(), e);
+        }
     }
 
-    public String getProperty(String key) {
-        return properties.getProperty(key);
+    public Properties getProperties() {
+        return properties;
     }
 }

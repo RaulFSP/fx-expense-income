@@ -11,6 +11,7 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.stage.Stage;
 
+import java.util.Properties;
 
 
 public class App extends Application {
@@ -29,7 +30,9 @@ public class App extends Application {
     @Override
     public void init() {
         configManager = new ConfigManager();
+
         Platform.runLater(() -> {
+
             DataLists.getListValueTypes().setAll(ValueType.values());
             try (EntityManager manager = DAO.getEntityManager()) {
                 DataLists.getListValues().setAll(new ValueRepository(manager).findAll());
